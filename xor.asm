@@ -114,7 +114,8 @@ NEXT2 ; increment the counter
 
         LDI R5, NUM3 ; Load the XOR result
         ; Test 3 bit 
-        AND R6, R5, #8
+        LD R6, PLACE8
+        AND R6, R5, R6
         BRz BIT3ZERO
         LD R0, ASCII1
         OUT
@@ -187,8 +188,9 @@ PROMPT4 .STRINGZ "Thank you for playing!"
 
 SHIFT .FILL x8
 NEWLINE .FILL x000A
+PLACE8 .FILL x0008
 PLACE4 .FILL x0004
-PLACE3 .FILL x0002
+PLACE2 .FILL x0002
 PLACE1 .FILL x0001
 ASCII0 .FILL x0030
 ASCII1 .FILL x0031
