@@ -46,7 +46,7 @@ NEXT1 ; to increment the counter
 
 ; Second number section 
         LD R0, NEWLINE
-        PUTS
+        OUT
 
         LEA R0, PROMPT2
         PUTS
@@ -127,7 +127,7 @@ NEGQ .FILL xFF8F
 PROMPT1 .STRINGZ "Enter First Binary Number: "
 PROMPT2 .STRINGZ "Enter Second Number: "
 PROMPT3 .STRINGZ "The XOR function of the two numbers is: "     
-PROMPT4 .STRINGZ "Thank you for playing! "
+PROMPT4 .STRINGZ "Thank you for playing!"
 
 NEWLINE .FILL x000A
 
