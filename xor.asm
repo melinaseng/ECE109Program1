@@ -96,13 +96,13 @@ NEXT2 ; increment the counter
         LDI R4, NUM2
 
         ; Attempt to rewrite XOR process 
-        NOT R3, R1
-        AND R3, R3, R2
-        NOT R4, R2
-        AND R4, R4, R1
-        NOT R3, R3
-        NOT R4, R4
-        AND R5, R3, R4
+        NOT R6, R4
+        AND R5, R3, R6
+        NOT R6, R3
+        AND R6, R6, R4
+        NOT R5, R5
+        NOT R6, R6
+        AND R5, R5, R6
         NOT R5, R5
 
         STI R5, NUM3
@@ -187,5 +187,10 @@ PROMPT4 .STRINGZ "Thank you for playing!"
 
 SHIFT .FILL x8
 NEWLINE .FILL x000A
+PLACE4 .FILL x0004
+PLACE3 .FILL x0002
+PLACE1 .FILL x0001
+ASCII0 .FILL x0030
+ASCII1 .FILL x0031
 
 .END
