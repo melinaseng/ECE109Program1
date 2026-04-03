@@ -1,9 +1,12 @@
 .ORIG x3000
 
-START   ; starts and prints a new line 
+BEG
+        ; Print a new line only at the beginning 
         LD R0, NEWLINE
         OUT 
+        BR START
 
+START    
         ; Prints the prompt
         LEA R0, PROMPT1
         PUTS 
@@ -46,8 +49,8 @@ NEXT1 ; to increment the counter
         STI R3, NUM1 ; store the number into R3
 
 ; Second number section 
-        ;LD R0, NEWLINE
-        ;OUT
+        LD R0, NEWLINE
+        OUT
 
         LEA R0, PROMPT2
         PUTS
