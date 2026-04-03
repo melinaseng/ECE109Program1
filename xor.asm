@@ -1,7 +1,7 @@
 .ORIG x3000
 
 START   ; starts and prints a new line 
-        LEA, RO NEWLINE
+        LD, R0 NEWLINE
         PUTS 
 
         ; Prints the prompt
@@ -10,26 +10,26 @@ START   ; starts and prints a new line
 
         ; R1 is the counter from 0 to 4
         ; R3 is the number from user input 
-        ADD R1, R1, #0 ; sets the counter to 0
-        ADD R3, R3, #0 ; sets the number to 0
+        AND R1, R1, #0 ; sets the counter to 0
+        AND R3, R3, #0 ; sets the number to 0
 
 READ1   
         GETC 
         OUT ; echos the number onto the terminal
 
-        ADD R2, R0, #-133 ; checks for q and quits
+        ADD R2, R0, NEGQ ; checks for q and quits
         BRz QUIT 
-        ADD R2, R0, #-48 ; checks to see if 0
+        ADD R2, R0, NEG0 ; checks to see if 0
         BRz ZERO
-        ADD R2, R0, #-49 ; checks to see if 1
+        ADD R2, R0, NEG1 ; checks to see if 1
 
-        BR READ1; ignores the invalid characters 
+        BR READ1 ; ignores the invalid characters 
 
-ZERO
+ZERO1
         ADD R3, R3, R3 ; shifts the number to the left
         BR NEXT1
 
-ONE
+ONE1
         ADD R3, R3, R3 ; shifts to the left
         ADD R3, R3, #1 ; adds 1 
 
@@ -38,48 +38,49 @@ NEXT1 ; to increment the counter
         ADD R2, R1, #-4
         BRn READ1
 
-        ST R3, NUM1 ; store the number into R3
+        STI R3, NUM1 ; store the number into R3
 
-        LEA R0, NEWLINE
+; Second number section 
+        LD R0, NEWLINE
         PUTS
 
         LEA R0, PROMPT2
         PUTS
 
         ; R1 is the counter from 0 to 4
-        ; R3 is the number from the user 
+        ; R4 is the number from the user 
         AND R1, R1, #0 ; sets the counter to 0
-        AND R3, R3, #0 ; sets the number to 0
+        AND R4, R4, #0 ; sets the number to 0
 
 READ2
         GETC
         OUT ; echos the number on the terminal
 
-        ADD R2, R0, #-113 ; check for q and quit 
+        ADD R2, R0, NEGQ ; check for q and quit 
         BRz QUIT 
 
-        ADD R2, R0, #-48 ; check to see if 0
-        BRz ZERO
+        ADD R2, R0, NEG0 ; check to see if 0
+        BRz ZERO2
 
-        ADD R2, R0, #-49 ; check to see if 1
-        BRz ONE
+        ADD R2, R0, NEG1 ; check to see if 1
+        BRz ONE2
 
-        BR READ1 ; ignores the invalid characters 
+        BR READ2 ; ignores the invalid characters 
 
-ZERO
+ZERO2
         ADD R4, R4, R4 ; shifts to the left
-        BR NEXT1
+        BR NEXT2
 
-ONE
+ONE2
         ADD R4, R4, R4 ; shifts to the left 
         ADD R4, R4, #1 ; add 1 
 
-NEXT1 ; increment the counter 
+NEXT2 ; increment the counter 
         DD R1, R1, #1 
         ADD R2, R1, #-4
         Brn READ2
 
-        ST R4, NUM2
+        STI R4, NUM2
 
 ; ---- Process the XOR ----
         ; Load in the 2 numbers 
