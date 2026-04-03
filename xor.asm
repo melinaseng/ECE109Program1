@@ -126,7 +126,7 @@ NEG1 .FILL xFFCF
 NEGQ .FILL xFF8F
 
 PROMPT1 .STRINGZ "Enter First Binary Number: "
-PROMPT2 .STRINGZ "Enter Second Number: "
+PROMPT2 .STRINGZ "Enter Second Binary Number: "
 PROMPT3 .STRINGZ "The XOR function of the two numbers is: "     
 PROMPT4 .STRINGZ "Thank you for playing!"
 
