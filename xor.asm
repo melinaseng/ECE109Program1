@@ -1,8 +1,8 @@
 .ORIG x3000
 
 START   ; starts and prints a new line 
-        LD, R0 NEWLINE
-        PUTS 
+        LD R0, NEWLINE
+        OUT 
 
         ; Prints the prompt
         LEA R0, PROMPT1
@@ -17,13 +17,17 @@ READ1
         GETC 
         OUT ; echos the number onto the terminal
 
-        ADD R2, R0, NEGQ ; checks for q and quits
+        LD R2, NEGQ
+        ADD R2, R0, R2 ; checks for q and quits
         BRz QUIT 
-        ADD R2, R0, NEG0 ; checks to see if 0
-        BRz ZERO
-        ADD R2, R0, NEG1 ; checks to see if 1
 
-        BR READ1 ; ignores the invalid characters 
+        LD R2, NEG0
+        ADD R2, R0, R2 ; checks to see if 0
+        BRz ZERO1
+
+        LD R2, NEG1
+        ADD R2, R0, R2 ; checks to see if 1
+        BR ONE1 ; ignores the invalid characters 
 
 ZERO1
         ADD R3, R3, R3 ; shifts the number to the left
@@ -56,13 +60,16 @@ READ2
         GETC
         OUT ; echos the number on the terminal
 
-        ADD R2, R0, NEGQ ; check for q and quit 
+        LD R2, NEGQ
+        ADD R2, R0, R2 ; check for q and quit 
         BRz QUIT 
 
-        ADD R2, R0, NEG0 ; check to see if 0
+        LD R2, NEG0
+        ADD R2, R0, R2 ; check to see if 0
         BRz ZERO2
 
-        ADD R2, R0, NEG1 ; check to see if 1
+        LD R2, NEG1
+        ADD R2, R0, R2 ; check to see if 1
         BRz ONE2
 
         BR READ2 ; ignores the invalid characters 
@@ -76,7 +83,7 @@ ONE2
         ADD R4, R4, #1 ; add 1 
 
 NEXT2 ; increment the counter 
-        DD R1, R1, #1 
+        ADD R1, R1, #1 
         ADD R2, R1, #-4
         Brn READ2
 
@@ -84,8 +91,8 @@ NEXT2 ; increment the counter
 
 ; ---- Process the XOR ----
         ; Load in the 2 numbers 
-        LD R3, NUM1
-        LD R4, NUM2
+        LDI R3, NUM1
+        LDI R4, NUM2
 
         ; R5 as NOT R4
         NOT R5, R4
@@ -100,14 +107,28 @@ NEXT2 ; increment the counter
         ; R6 is the XOR result
         ADD R6, R6, R7
 
-        ST R6, NUM3
+        STI R6, NUM3
 
+QUIT
+        LD R0, NEWLINE
+        OUT
+        LEA R0, PROMPT4
+        PUTS 
         HALT
 
-        PROMPT1 .STRINGZ "Enter First Number (4 Binary Digits): "
-        PROMPT2 .STRINGZ "Enter Second Number (4 Binary Digits): "
-        PROMPT3 .STRINGZ "The XOR function of the two numbers is: "     
-        PROMPT4 .STRINGZ "Thank you for playing! "
-        NEWLINE .STRINGZ "\n "
+NUM1 .FILL x4000
+NUM2 .FILL x4001
+NUM3 .FILL x4002
 
-        .END
+NEG0 .FILL xFFD0
+NEG1 .FILL xFFCF
+NEGQ .FILL xFF8F
+
+PROMPT1 .STRINGZ "Enter First Number: "
+PROMPT2 .STRINGZ "Enter Second Number: "
+PROMPT3 .STRINGZ "The XOR function of the two numbers is: "     
+PROMPT4 .STRINGZ "Thank you for playing! "
+
+NEWLINE .FILL x000A
+
+.END
