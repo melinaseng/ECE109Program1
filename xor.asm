@@ -95,25 +95,75 @@ NEXT2 ; increment the counter
         LDI R3, NUM1
         LDI R4, NUM2
 
-        ; R5 as NOT R4
-        NOT R5, R4
-        ; A and NOT B
-        AND R6, R3, R5
+        ; Attempt to rewrite XOR process 
+        NOT R3, R1
+        AND R3, R3, R2
+        NOT R4, R2
+        AND R4, R4, R1
+        NOT R3, R3
+        NOT R4, R4
+        AND R5, R3, R4
+        NOT R5, R5
 
-        ; R5 as NOT R3
-        NOT R5, R3
-        ; NOT A and B
-        AND R2, R5, R4
-
-        ; R6 is the XOR result
-        ADD R6, R6, R2
-
-        STI R6, NUM3
+        STI R5, NUM3
 
         LD R0, NEWLINE
         OUT
         LEA R0, PROMPT3
         PUTS
+
+        LDI R5, NUM3 ; Load the XOR result
+        ; Test 3 bit 
+        AND R6, R5, #8
+        BRz BIT3ZERO
+        LD R0, ASCII1
+        OUT
+        BR BIT2
+
+BIT3ZERO
+        LD R0, ASCII0
+        OUT
+
+BIT2
+        LD R6, PLACE4
+        AND R6, R5, R6
+        BRz BIT2ZERO
+        LD R0, ASCII1
+        OUT
+        BR BIT1
+
+BIT2ZERO
+        LD R0, ASCII0
+        OUT
+
+BIT1
+        LD R6, PLACE2
+        AND R6, R5, R6
+        BRz BIT1ZERO
+        LD R0, ASCII1
+        OUT
+        BR BIT0
+
+BIT1ZERO
+        LD R0, ASCII0
+        OUT
+
+BIT0
+        LD R6, PLACE1
+        AND R6, R5, R6
+        BRz BIT0ZERO
+        LD R0, ASCII1
+        OUT
+        BR XORDONE
+
+BIT0ZERO
+        LD R0, ASCII0
+        OUT
+
+XORDONE
+        LD R0, NEWLINE
+        OUT
+        BR START 
 
 QUIT
         LD R0, NEWLINE
@@ -135,6 +185,7 @@ PROMPT2 .STRINGZ "Enter Second Binary Number: "
 PROMPT3 .STRINGZ "The XOR function of the two numbers is: "     
 PROMPT4 .STRINGZ "Thank you for playing!"
 
+SHIFT .FILL x8
 NEWLINE .FILL x000A
 
 .END
