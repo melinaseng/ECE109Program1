@@ -98,15 +98,15 @@ NEXT2 ; increment the counter
         ; R5 as NOT R4
         NOT R5, R4
         ; A and NOT B
-        ADD R6, R3, R5
+        AND R6, R3, R5
 
         ; R5 as NOT R3
         NOT R5, R3
         ; NOT A and B
-        ADD R7, R5, R4
+        AND R2, R5, R4
 
         ; R6 is the XOR result
-        ADD R6, R6, R7
+        ADD R6, R6, R2
 
         STI R6, NUM3
 
