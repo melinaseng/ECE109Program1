@@ -1,111 +1,112 @@
 .ORIG x3000
 
-START ; starts and prints a new line 
-LD, RO NEWLINE
-TRAP x22 ; PUTS 
+START   ; starts and prints a new line 
+        LEA, RO NEWLINE
+        PUTS 
 
-; Prints the prompt
-LEA R0, PROMPT1
-TRAP x22 ; PUTS 
+        ; Prints the prompt
+        LEA R0, PROMPT1
+        PUTS 
 
-; R1 is the counter from 0 to 4
-; R3 is the number from user input 
-ADD R1, R1, #0 ; sets the counter to 0
-ADD R3, R3, #0 ; sets the number to 0
+        ; R1 is the counter from 0 to 4
+        ; R3 is the number from user input 
+        ADD R1, R1, #0 ; sets the counter to 0
+        ADD R3, R3, #0 ; sets the number to 0
 
-READ1
-TRAP x20 ; GETC 
-OUT ; echos the number onto the terminal
+READ1   
+        GETC 
+        OUT ; echos the number onto the terminal
 
-ADD R2, R0, #-133 ; checks for q and quits
-BRz QUIT 
-ADD R2, R0, #-48 ; checks to see if 0
-BRz ZERO
-ADD R2, R0, #-49 ; checks to see if 1
+        ADD R2, R0, #-133 ; checks for q and quits
+        BRz QUIT 
+        ADD R2, R0, #-48 ; checks to see if 0
+        BRz ZERO
+        ADD R2, R0, #-49 ; checks to see if 1
 
-BR READ1; ignores the invalid characters 
+        BR READ1; ignores the invalid characters 
 
 ZERO
-ADD R3, R3, R3 ; shifts the number to the left
-BR NEXT1
+        ADD R3, R3, R3 ; shifts the number to the left
+        BR NEXT1
 
 ONE
-ADD R3, R3, R3 ; shifts to the left
-ADD R3, R3, #1 ; adds 1 
+        ADD R3, R3, R3 ; shifts to the left
+        ADD R3, R3, #1 ; adds 1 
 
 NEXT1 ; to increment the counter 
-ADD R1, R1, #1
-ADD R2, R1, #-4
-BRn READ1
+        ADD R1, R1, #1
+        ADD R2, R1, #-4
+        BRn READ1
 
-ST R3, NUM1 ; store the number into R3
+        ST R3, NUM1 ; store the number into R3
 
-LD R0, NEWLINE
-OUT
+        LEA R0, NEWLINE
+        PUTS
 
-LEA R0, PROMPT2
-TRAP x22
+        LEA R0, PROMPT2
+        PUTS
 
-; R1 is the counter from 0 to 4
-; R3 is the number from the user 
-AND R1, R1, #0 ; sets the counter to 0
-AND R3, R3, #0 ; sets the number to 0
+        ; R1 is the counter from 0 to 4
+        ; R3 is the number from the user 
+        AND R1, R1, #0 ; sets the counter to 0
+        AND R3, R3, #0 ; sets the number to 0
 
 READ2
-GETC
-OUT ; echos the number on the terminal
+        GETC
+        OUT ; echos the number on the terminal
 
-ADD R2, R0, #-113 ; check for q and quit 
-BRz QUIT 
+        ADD R2, R0, #-113 ; check for q and quit 
+        BRz QUIT 
 
-ADD R2, R0, #-48 ; check to see if 0
-BRz ZERO
+        ADD R2, R0, #-48 ; check to see if 0
+        BRz ZERO
 
-ADD R2, R0, #-49 ; check to see if 1
-BRz ONE
+        ADD R2, R0, #-49 ; check to see if 1
+        BRz ONE
 
-BR READ1 ; ignores the invalid characters 
+        BR READ1 ; ignores the invalid characters 
 
 ZERO
-ADD R4, R4, R4 ; shifts to the left
-BR NEXT1
+        ADD R4, R4, R4 ; shifts to the left
+        BR NEXT1
 
 ONE
-ADD R4, R4, R4 ; shifts to the left 
-ADD R4, R4, #1 ; add 1 
+        ADD R4, R4, R4 ; shifts to the left 
+        ADD R4, R4, #1 ; add 1 
 
 NEXT1 ; increment the counter 
-ADD R1, R1, #1 
-ADD R2, R1, #-4
-Brn READ2
+        DD R1, R1, #1 
+        ADD R2, R1, #-4
+        Brn READ2
 
-ST R4, NUM2
+        ST R4, NUM2
 
 ; ---- Process the XOR ----
-; Load in the 2 numbers 
-LD R3, NUM1
-LD R4, NUM2
+        ; Load in the 2 numbers 
+        LD R3, NUM1
+        LD R4, NUM2
 
-; R5 as NOT R4
-NOT R5, R4
-; A and NOT B
-ADD R6, R3, R5
+        ; R5 as NOT R4
+        NOT R5, R4
+        ; A and NOT B
+        ADD R6, R3, R5
 
-; R5 as NOT R3
-NOT R5, R3
-; NOT A and B
-ADD R7, R5, R4
+        ; R5 as NOT R3
+        NOT R5, R3
+        ; NOT A and B
+        ADD R7, R5, R4
 
-; R6 is the XOR result
-ADD R6, R6, R7
+        ; R6 is the XOR result
+        ADD R6, R6, R7
 
-ST R6, NUM3
+        ST R6, NUM3
 
-HALT
+        HALT
 
-PROMPT1 .STRINGZ "Enter First Number (4 Binary Digits): "
-PROMPT2 .STRINGZ "Enter Second Number (4 Binary Digits): "
-PROMPT3 .STRINGZ "The XOR function of the two numbers is: "
-PROMPT4 .STRINGZ "Thank you for playing! "
+        PROMPT1 .STRINGZ "Enter First Number (4 Binary Digits): "
+        PROMPT2 .STRINGZ "Enter Second Number (4 Binary Digits): "
+        PROMPT3 .STRINGZ "The XOR function of the two numbers is: "     
+        PROMPT4 .STRINGZ "Thank you for playing! "
+        NEWLINE .STRINGZ "\n "
 
-.END
+        .END
