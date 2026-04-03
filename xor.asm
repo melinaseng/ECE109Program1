@@ -110,6 +110,11 @@ NEXT2 ; increment the counter
 
         STI R6, NUM3
 
+        LD R0, NEWLINE
+        OUT
+        LEA R0, PROMPT3
+        PUTS
+
 QUIT
         LD R0, NEWLINE
         OUT
