@@ -27,7 +27,8 @@ READ1
 
         LD R2, NEG1
         ADD R2, R0, R2 ; checks to see if 1
-        BR ONE1 ; ignores the invalid characters 
+        BRz ONE1 
+        BR READ1 ; ignores the invalid characters 
 
 ZERO1
         ADD R3, R3, R3 ; shifts the number to the left
