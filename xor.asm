@@ -46,8 +46,8 @@ NEXT1 ; to increment the counter
         STI R3, NUM1 ; store the number into R3
 
 ; Second number section 
-        LD R0, NEWLINE
-        OUT
+        ;LD R0, NEWLINE
+        ;OUT
 
         LEA R0, PROMPT2
         PUTS
